@@ -50,7 +50,7 @@ public class UserTable {
             stmt.executeUpdate(query);
 
         } catch (SQLException e) {
-
+            JdbcUtilities.printSQLException(e);
         }
     }
 
