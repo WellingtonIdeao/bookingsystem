@@ -39,7 +39,7 @@ public class UserTable {
                 pstmt.execute();
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            JdbcUtilities.printSQLException(e);
         }
     }
 
@@ -50,7 +50,7 @@ public class UserTable {
             stmt.executeUpdate(query);
 
         } catch (SQLException e) {
-            JdbcUtilities.printSQLException(e);
+
         }
     }
 

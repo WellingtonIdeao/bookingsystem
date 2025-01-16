@@ -17,8 +17,8 @@ public class App
         try(Connection connection = JdbcUtilities.getConnection()){
             System.out.println("Connected with database");
             JdbcUtilities.initializeTables(connection);
-//            UserDao dao = new UserDao(connection);
-//            System.out.println(dao.list());
+            UserDao dao = new UserDao(connection);
+            System.out.println(dao.list());
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
