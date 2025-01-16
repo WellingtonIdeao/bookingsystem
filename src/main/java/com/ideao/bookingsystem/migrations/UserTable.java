@@ -1,9 +1,9 @@
 package com.ideao.bookingsystem.migrations;
 
-import com.ideao.bookingsystem.JdbcUtilities;
-import com.sun.corba.se.spi.monitoring.StatisticMonitoredAttribute;
+import com.ideao.bookingsystem.util.JdbcUtilities;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -30,6 +30,19 @@ public class UserTable {
         }
     }
 
+    public void populateTable(int qtd) {
+        String query = "INSERT INTO user (username, password) VALUES(?, ?)";
+        try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+            for(int i = 1; i <= qtd; i++) {
+                pstmt.setString(1, "username" + i);
+                pstmt.setString(2, "password" + i);
+                pstmt.execute();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void dropTable() {
         String query = "DROP TABLE IF EXISTS user";
 
@@ -40,6 +53,5 @@ public class UserTable {
             JdbcUtilities.printSQLException(e);
         }
     }
-
 
 }

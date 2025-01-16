@@ -1,4 +1,4 @@
-package com.ideao.bookingsystem;
+package com.ideao.bookingsystem.util;
 
 import com.ideao.bookingsystem.migrations.UserTable;
 
@@ -18,6 +18,8 @@ public class JdbcUtilities {
         userTable.dropTable();
         System.out.println("Creating USER table...");
         userTable.createTable();
+        System.out.println("Populating USER table...");
+        userTable.populateTable(10);
 
     }
 

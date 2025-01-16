@@ -1,8 +1,7 @@
 package com.ideao.bookingsystem;
 
 import com.ideao.bookingsystem.dao.UserDao;
-import com.ideao.bookingsystem.migrations.UserTable;
-import com.ideao.bookingsystem.model.User;
+import com.ideao.bookingsystem.util.JdbcUtilities;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -17,9 +16,9 @@ public class App
 
         try(Connection connection = JdbcUtilities.getConnection()){
             System.out.println("Connected with database");
-//            JdbcUtilities.initializeTables(connection);
-            UserDao dao = new UserDao(connection);
-            System.out.println(dao.list());
+            JdbcUtilities.initializeTables(connection);
+//            UserDao dao = new UserDao(connection);
+//            System.out.println(dao.list());
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
