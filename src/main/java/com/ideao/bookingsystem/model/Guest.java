@@ -8,8 +8,8 @@ public class Guest {
     private String surname;
     private Date birthDay;
     private String nationality;
-    private String telefone;
-    private Long idBooking;
+    private String phone;
+    private Booking booking;
 
 
 }
