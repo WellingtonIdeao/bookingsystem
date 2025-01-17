@@ -1,5 +1,6 @@
 package com.ideao.bookingsystem.util;
 
+import com.ideao.bookingsystem.migrations.BookingTable;
 import com.ideao.bookingsystem.migrations.GuestTable;
 import com.ideao.bookingsystem.migrations.UserTable;
 
@@ -16,14 +17,17 @@ public class JdbcUtilities {
     public static void initializeTables(Connection connection) throws SQLException {
         UserTable userTable = new UserTable(connection);
         GuestTable guestTable = new GuestTable(connection);
-
+        BookingTable bookingTable = new BookingTable(connection);
         System.out.println("Dropping existing USER AND GUEST table...");
         userTable.dropTable();
         guestTable.dropTable();
+        bookingTable.dropTable();
 
-        System.out.println("Creating USER AND GUEST table...");
+
+        System.out.println("Creating USER, GUEST and BOOKING table...");
         userTable.createTable();
         guestTable.createTable();
+        bookingTable.createTable();
         System.out.println("Populating USER table...");
         userTable.populateTable(10);
 
