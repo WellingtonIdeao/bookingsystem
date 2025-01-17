@@ -22,7 +22,9 @@ public class GuestTable {
                 "birth_date DATE, " +
                 "nationality VARCHAR(255), " +
                 "phone VARCHAR(255), " +
-                "PRIMARY KEY (id)" +
+                "booking_id INT, " +
+                "PRIMARY KEY (id), " +
+                "FOREIGN KEY (booking_id) REFERENCES booking(id)" +
                 ")";
         try(PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.execute();

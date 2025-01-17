@@ -19,15 +19,18 @@ public class JdbcUtilities {
         GuestTable guestTable = new GuestTable(connection);
         BookingTable bookingTable = new BookingTable(connection);
         System.out.println("Dropping existing USER AND GUEST table...");
-        userTable.dropTable();
         guestTable.dropTable();
         bookingTable.dropTable();
+        userTable.dropTable();
+        guestTable.dropTable();
+
 
 
         System.out.println("Creating USER, GUEST and BOOKING table...");
         userTable.createTable();
-        guestTable.createTable();
         bookingTable.createTable();
+        guestTable.createTable();
+
         System.out.println("Populating USER table...");
         userTable.populateTable(10);
 
