@@ -19,9 +19,8 @@ public class App
             JdbcUtilities.initializeTables(connection);
             UserDao dao = new UserDao(connection);
             System.out.println(dao.list());
-
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            JdbcUtilities.printSQLException(e);
         }
         System.out.println("Desconnected with database");
 

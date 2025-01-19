@@ -1,6 +1,7 @@
 package com.ideao.bookingsystem.dao;
 
 import com.ideao.bookingsystem.model.User;
+import com.ideao.bookingsystem.util.JdbcUtilities;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,15 +20,24 @@ public class UserDao {
 
     public List<User> list() {
         List<User> users = new ArrayList<>();
-        String query = "SELECT * FROM user";
+        String query = "SELECT id, username, password FROM user";
         try(Statement stmt = connection.createStatement()) {
-            stmt.execute(query);
-            transformResultSetToUser(stmt, users);
-
+            ResultSet rs = stmt.executeQuery(query);
+            transformResultSetToUser(rs, users);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            JdbcUtilities.printSQLException(e);
         }
         return users;
+    }
+
+
+    private void transformResultSetToUser(ResultSet rs, List<User> users) throws SQLException {
+        while(rs.next()) {
+            User user = new User( rs.getLong(1),
+                    rs.getString(2),
+                    rs.getString(3));
+            users.add(user);
+        }
     }
 
     private void transformResultSetToUser(Statement stmt, List<User> users) {
