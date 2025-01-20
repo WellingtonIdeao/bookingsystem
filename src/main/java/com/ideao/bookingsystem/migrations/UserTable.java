@@ -1,11 +1,7 @@
 package com.ideao.bookingsystem.migrations;
 
 import com.ideao.bookingsystem.util.JdbcUtilities;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class UserTable {
     private Connection connection;
@@ -40,6 +36,27 @@ public class UserTable {
             }
         } catch (SQLException e) {
             JdbcUtilities.printSQLException(e);
+        }
+    }
+
+    public void populateTableBatch(int qtd) throws SQLException {
+        connection.setAutoCommit(false);
+        String query = "INSERT INTO user (username, password) VALUES(?, ?)";
+        try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+            for(int i = 1; i <= qtd; i++) {
+                pstmt.setString(1, "username" + i);
+                pstmt.setString(2, "password" + i);
+                pstmt.addBatch();
+            }
+
+            int[] updateCounts = pstmt.executeBatch();
+            connection.commit();
+        } catch (BatchUpdateException b) {
+            JdbcUtilities.printBatchUpdateException(b);
+        } catch (SQLException e) {
+            JdbcUtilities.printSQLException(e);
+        } finally {
+            connection.setAutoCommit(true);
         }
     }
 

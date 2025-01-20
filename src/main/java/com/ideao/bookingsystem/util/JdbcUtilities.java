@@ -4,6 +4,7 @@ import com.ideao.bookingsystem.migrations.BookingTable;
 import com.ideao.bookingsystem.migrations.GuestTable;
 import com.ideao.bookingsystem.migrations.UserTable;
 
+import java.sql.BatchUpdateException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -32,7 +33,7 @@ public class JdbcUtilities {
         guestTable.createTable();
 
         System.out.println("Populating USER table...");
-        userTable.populateTable(10);
+        userTable.populateTableBatch(10);
 
     }
 
@@ -65,5 +66,17 @@ public class JdbcUtilities {
         if (sqlState.equalsIgnoreCase("42S02"))
             return true;
         return false;
+    }
+
+    public static void printBatchUpdateException(BatchUpdateException b) {
+        System.err.println("----BatchUpdateException----");
+        System.err.println("SQLState:  " + b.getSQLState());
+        System.err.println("Message:  " + b.getMessage());
+        System.err.println("Vendor:  " + b.getErrorCode());
+        System.err.print("Update counts:  ");
+        int[] updateCounts = b.getUpdateCounts();
+        for (int i = 0; i < updateCounts.length; i++) {
+            System.err.print(updateCounts[i] + "   ");
+        }
     }
 }
