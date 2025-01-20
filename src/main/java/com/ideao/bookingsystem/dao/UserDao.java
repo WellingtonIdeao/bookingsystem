@@ -40,7 +40,7 @@ public class UserDao {
         }
     }
 
-    private void transformResultSetToUser(Statement stmt, List<User> users) {
+    private void transformResultSetToUser(Statement stmt, List<User> users) throws SQLException {
         try(ResultSet rs = stmt.getResultSet()) {
             while(rs.next()) {
                 User user = new User( rs.getLong("id"),
@@ -48,8 +48,6 @@ public class UserDao {
                         rs.getString("password"));
                 users.add(user);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
     }
 
