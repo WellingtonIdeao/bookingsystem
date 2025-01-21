@@ -33,7 +33,7 @@ public class UserTable {
             for(int i = 1; i <= qtd; i++) {
                 pstmt.setString(1, "username" + i);
                 pstmt.setString(2, "password" + i);
-                pstmt.execute();
+                pstmt.executeUpdate();
             }
             connection.commit();
         } catch (SQLException e) {
