@@ -44,6 +44,7 @@ public class UserTable {
             } catch (SQLException ex) {
                 JdbcUtilities.printSQLException(ex);
             }
+
         } finally {
             connection.setAutoCommit(true);
         }
@@ -63,8 +64,20 @@ public class UserTable {
             connection.commit();
         } catch (BatchUpdateException b) {
             JdbcUtilities.printBatchUpdateException(b);
+            try {
+                System.err.println("Transaction is being rolled back");
+                connection.rollback();
+            } catch (SQLException ex) {
+                JdbcUtilities.printSQLException(ex);
+            }
         } catch (SQLException e) {
             JdbcUtilities.printSQLException(e);
+            try {
+                System.err.println("Transaction is being rolled back");
+                connection.rollback();
+            }catch (SQLException ex) {
+                JdbcUtilities.printSQLException(ex);
+            }
         } finally {
             connection.setAutoCommit(true);
         }
@@ -80,5 +93,4 @@ public class UserTable {
             JdbcUtilities.printSQLException(e);
         }
     }
-
 }
