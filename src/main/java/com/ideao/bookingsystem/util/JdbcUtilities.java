@@ -33,7 +33,7 @@ public class JdbcUtilities {
         guestTable.createTable();
 
         System.out.println("Populating USER table...");
-        userTable.populateTableBatch(10);
+        userTable.populateTable(10);
 
     }
 

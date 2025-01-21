@@ -26,7 +26,8 @@ public class UserTable {
         }
     }
 
-    public void populateTable(int qtd) {
+    public void populateTable(int qtd) throws SQLException {
+        connection.setAutoCommit(false);
         String query = "INSERT INTO user (username, password) VALUES(?, ?)";
         try(PreparedStatement pstmt = connection.prepareStatement(query)) {
             for(int i = 1; i <= qtd; i++) {
@@ -34,8 +35,17 @@ public class UserTable {
                 pstmt.setString(2, "password" + i);
                 pstmt.execute();
             }
+            connection.commit();
         } catch (SQLException e) {
             JdbcUtilities.printSQLException(e);
+            try {
+                System.err.println("Transaction is being rolled back");
+                connection.rollback();
+            } catch (SQLException ex) {
+                JdbcUtilities.printSQLException(ex);
+            }
+        } finally {
+            connection.setAutoCommit(true);
         }
     }
 
